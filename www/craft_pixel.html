@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+  <html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cosmic Tracks Summary</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <style>
+      .staticLink {
+          font-weight: bold;
+          font-size: 24px;
+          text-align: center;
+          width: 100%;
+      }
+
+      .staticLink a {
+          font-size: 24px;
+          padding-left:20px;
+      }
+
+    </style>
+   </head>
+   <body>
+     <section id="text-about">
+         2024 ALCARECO cosmic tracks
+     </section>
+     <p class="staticLink">Static Images:<a href="./data/CRAFTp.png" download="">Trend</a><a href="./data/CRAFTp_rate.png" download="">Rate</a><a href="./data/CRAFTp_cumul.png" download="">Cumulative</a></p>
+     <br>
+     <div id="trend" style="width: 100%; aspect-ratio: 9 / 4"></div>
+     <br>
+     <div id="rate" style="width: 100%; aspect-ratio: 9 / 4"></div>
+     <br>
+     <div id="cumul" style="width: 100%; aspect-ratio: 9 / 4"></div>
+   </body>
+   <script type='module'>
+     import { openFile, draw } from 'https://root.cern/js/latest/modules/main.mjs';
+     let file = await openFile('./data/cosmics.root');
+     let obj = await file.readObject('c_CRAFT_p');
+     draw('trend', obj,'');
+     obj = await file.readObject('c_CRAFT_p_rate');
+     draw('rate', obj,'');
+     obj = await file.readObject('c_CRAFT_p_cumul');
+     draw('cumul', obj,'');
+   </script>
+  </html>
+

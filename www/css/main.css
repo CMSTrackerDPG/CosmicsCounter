@@ -1,0 +1,169 @@
+body{
+}
+
+.btn-custom {
+  color: #bdc3c7;
+  font-size: 18px;
+  border: 1px solid #bdc3c7;
+}
+.btn-custom:hover {
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+#my-table {
+  padding-top: 50px;
+}
+#my-table .main {
+  marign: 0;
+  padding: 0;
+  font-family: 'Candara', sans-serif;
+}
+#text-about {
+  text-align: center;
+  margin-top: 15px;
+  font-family: 'Candara', sans-serif;
+  font-size: 34px;
+  letter-spacing: 1px;
+  color: #bdc3c7;
+}
+#my-table .main .my-table {
+  padding-bottom: 30px;
+}
+#my-table .main .my-table .table-header {
+  position: relative;
+  background: #34495e;
+  padding: 10px 0px;
+  text-align: center;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+#my-table .main .my-table .table-header .table-title {
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 50px;
+  text-align: center;
+  font-weight: 700;
+}
+#my-table .main .my-table .table-header .table-mytxt .table-tracks {
+  font-size: 35px;
+  font-weight: 400;
+  color: #ffffff;
+  position: relative;
+  text-align: center;
+}
+#my-table .main .my-table .table-header .table-mytxt {
+  font-size: 35px;
+  position: relative;
+  color: #bdc3c7;
+  text-align: center;
+}
+#my-table .main .my-table .table-header .table-mylink {
+  font-size: 16px;
+  position: relative;
+  /*color: #bdc3c7;*/
+  background: #bdc3c7;
+  border-left: 30px solid #34495e;
+  border-right: 30px solid #34495e;
+  text-align: center;
+}
+
+/*
+.table-mylink a{
+    padding-right: 10px;
+}*/
+
+#my-table .main .my-table .table-header .table-counts {
+  font-size: 16px;
+  background: #bdc3c7;
+  border-left: 30px solid #34495e;
+  border-right: 30px solid #34495e;
+  text-align: center;
+  width: 100%
+}
+
+#my-table .main .my-table .table-header .table-sep {
+  font-size: 2px;
+  background: #34495e;
+  /*border-left: 20px solid #34495e;
+  border-right: 20px solid #34495e;*/
+  text-align: center;
+  width: 100%
+}
+
+#my-table .main .my-table .table-header .table-sep2 {
+  font-size: 1px;
+  background: #ffffff;
+  border-left: 100px solid #34495e;
+  border-right: 100px solid #34495e;
+  text-align: center;
+  width: 100%
+}
+#my-table .main .table-details {
+  font-size: 16px;
+  padding: 0px 0 0px 0;
+  background: #ffffff;
+  border: 20px solid #34495e;
+}
+#my-table .main .table-details ul {
+  padding: 0px;
+  display: table;
+  margin: 0px auto;
+}
+#my-table .main .table-detail ul li {
+  list-style: none;
+  border-bottom: 2px solid #EAECEB;
+#  color: #bdc3c7;
+  color: #34495e;
+  font-size: 16px;
+  line-height: 42px;
+}
+#my-table .main .table-details ul li:last-child {
+  border: none;
+}
+#my-table .main .table-details ul li i {
+  margin-right: 12px;
+  color: #bdc3c7;
+}
+#my-table .main .table-details ul li span {
+  color: #34495e;
+}
+
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
