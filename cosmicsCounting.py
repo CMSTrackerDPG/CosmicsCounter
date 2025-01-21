@@ -29,6 +29,7 @@ runlist = {}
 dsetExpress={}
 dsetPrompt={}
 
+
 def getInfo(run):
     data=runregistry.get_run(run_number=run)
     bfield=data["oms_attributes"]["b_field"]
@@ -59,6 +60,10 @@ def truncate(f, n):
     return '.'.join([i, (d+'0'*n)[:n]])
 
 
+def RRrunsList(minRun,maxRun):
+    runs = runregistry.get_datasets(filter={'dataset_name':{'like':'%Express%Cosmics%'},'run_number':{'and':[{'>':minRun},{'<':maxRun}]}})
+    rlist = [r['run_number'] for r in runs]
+    return rlist
 
 def main():
     ####Cosmics settings are set after loading config options#####
@@ -111,10 +116,12 @@ def main():
     print("Querying runs from DQM GUI")
     ed = express
     pd = prompt
+    RRruns=RRrunsList(options.min, options.max)
     for n,d in (('Express',ed), ('Prompt',pd)):
         samples = dqm_get_samples(serverurl, d+yearPattern)
         for (r, d2) in samples:
-            if r<options.min or r>options.max: continue
+            #if r<options.min or r>options.max: continue
+            if r not in RRruns: continue
             if "DQMIO" in d2 : 
                 if 'Express' in n:
                     dsetExpress[int(r)]=d2
@@ -128,17 +135,20 @@ def main():
     for run in runlist.keys():
         if run not in lumiCache.keys():
             print(" - ",run)
-            dbmode = '???'
-            link = "http://cern.ch/erik.butz/cgi-bin/getReadOutmode.pl?RUN=" + str(run)
-            f = urllib.request.urlopen(link)
-            json_data = f.read()            
-            dbmodelist = json.loads(json_data)
-            print(dbmodelist)
-            if len(dbmodelist) != 0:
-                dbmode = dbmodelist[0][1]
-                lslumi = (-1,-1,-1,-1,dbmode,"WAIT","from DB mode (run not in prompt GUI yet)",-1)
-            else:
-                lslumi = (-1,-1,-1,-1,"NONE","WAIT","no info on DB (run not in prompt GUI yet)",-1)
+            #All DECO runs (since webapp is not available) <--- Aug 2024
+            dbmode = "DECO"
+            lslumi = (-1,-1,-1,-1,"DECO","WAIT","no info on DB (run not in prompt GUI yet)",-1)
+            #dbmode = '???'
+            #link = "http://cern.ch/erik.butz/cgi-bin/getReadOutmode.pl?RUN=" + str(run)
+            #f = urllib.request.urlopen(link)
+            #json_data = f.read()
+            #dbmodelist = json.loads(json_data)
+            #print(dbmodelist)
+            #if len(dbmodelist) != 0:
+            #    dbmode = dbmodelist[0][1]
+            #    lslumi = (-1,-1,-1,-1,dbmode,"WAIT","from DB mode (run not in prompt GUI yet)",-1)
+            #else:
+            #    lslumi = (-1,-1,-1,-1,"NONE","WAIT","no info on DB (run not in prompt GUI yet)",-1)
             try:
                 #dataset = "%s%s-%s/DQMIO" % (prompt[1], eraForRun(run), getPrForRun(run))
                 dataset = dsetPrompt[int(run)]
@@ -240,16 +250,13 @@ def main():
     info_run_pix_track_CRUZET = []; 
     info_run_pix_time_CRUZET = []; 
     info_run_pix_track_CRAFT = []; 
-    info_run_pix_time_CRAFT = []; 
-
-    
-
+    info_run_pix_time_CRAFT = [];
 
     
     runs = list(runlist.keys()); runs.sort(); runs.reverse()
     print("ALL RUNS: " , runs , "\n")
     for r in runs:
-        if abs(lumiCache[r][0]) > 1: 
+        if abs(lumiCache[r][0]) >= 1:
             if lumiCache[r][3] < 3.6: #0T cosmics (CRUZET)  
                 if lumiCache[r][1] > 0:
                     allLumi_currentCRUZET=allLumi_currentCRUZET+abs(lumiCache[r][0])
@@ -290,13 +297,15 @@ def main():
     #generate HTML
     generate_html(options.year,allAlcaTracks_currentCRUZET, allTime_currentCRUZET, mincruzetrunforstat, maxcruzetrunforstat, allAlcaTracks_pix_currentCRUZET, allTime_pix_currentCRUZET, mincruzetrunforstat_pix, maxcruzetrunforstat_pix, allAlcaTracks_currentCRAFT, allTime_currentCRAFT, mincosmicrunforstat, maxcosmicrunforstat, allAlcaTracks_pix_currentCRAFT, allTime_pix_currentCRAFT, mincosmicrunforstat_pix, maxcosmicrunforstat_pix)
 
+    print(info_run_time_CRAFT)
+
     #print some info
     print("CRUZET "+options.year+" info:")
-    print("AlCaReco Tracks: %.0fK in %.0f hours" % (allAlcaTracks_currentCRUZET / 1000. , abs(allTime_currentCRUZET / 3600.)))
-    print("AlCaReco Pixel Tracks: %.0fK in %.0f hours" % (allAlcaTracks_pix_currentCRUZET / 1000. , abs(allTime_pix_currentCRUZET / 3600.)))
+    print("AlCaReco Tracks: %.0fK in %.0f hours (%d runs)" % (allAlcaTracks_currentCRUZET / 1000. , abs(allTime_currentCRUZET / 3600.), len(info_run_track_CRAFT)))
+    print("AlCaReco Pixel Tracks: %.0fK in %.0f hours (%d runs)" % (allAlcaTracks_pix_currentCRUZET / 1000. , abs(allTime_pix_currentCRUZET / 3600.), len(info_run_pix_track_CRAFT)))
     print("CRAFT "+options.year+" info:")
-    print("AlCaReco Tracks: %.0fK in %.0f hours" % (allAlcaTracks_currentCRAFT / 1000. , abs(allTime_currentCRAFT / 3600.)))
-    print("AlCaReco Pixel Tracks: %.0fK in %.0f hours" % (allAlcaTracks_pix_currentCRAFT / 1000. , abs(allTime_pix_currentCRAFT / 3600.)))
+    print("AlCaReco Tracks: %.0fK in %.0f hours (%d runs)" % (allAlcaTracks_currentCRAFT / 1000. , abs(allTime_currentCRAFT / 3600.), len(info_run_track_CRUZET)))
+    print("AlCaReco Pixel Tracks: %.0fK in %.0f hours (%d runs)" % (allAlcaTracks_pix_currentCRAFT / 1000. , abs(allTime_pix_currentCRAFT / 3600.), len(info_run_pix_track_CRUZET)))
     
     #Generate Plots
     fRout=TFile("Data/cosmics.root","RECREATE")
