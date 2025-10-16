@@ -15,9 +15,9 @@ def generate_plot(Ctype,pix,info_run_track, info_run_time, allAlcaTracks_current
     truncated_frequency= "%.2f" % truncated_frequency
     Rleg.SetTextAlign(13)
     if pix:
-        Rleg.SetHeader("#splitline{"+Ctype+" tracks: "+str(truncated_numOfTracks)+"K}{#splitline{Duration: "+str(truncated_time)+" hours}{Rate: "+str(truncated_frequency)+" Hz}}")
-    else:
         Rleg.SetHeader("#splitline{"+Ctype+" Pixel tracks: "+str(truncated_numOfTracks)+"K}{#splitline{Duration: "+str(truncated_time)+" hours}{Rate: "+str(truncated_frequency)+" Hz}}")
+    else:
+        Rleg.SetHeader("#splitline{"+Ctype+" tracks: "+str(truncated_numOfTracks)+"K}{#splitline{Duration: "+str(truncated_time)+" hours}{Rate: "+str(truncated_frequency)+" Hz}}")
     Rleg.SetFillStyle(0)
     Rleg.SetBorderSize(0)
 

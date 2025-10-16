@@ -257,7 +257,10 @@ def main():
     print("ALL RUNS: " , runs , "\n")
     for r in runs:
         if abs(lumiCache[r][0]) >= 1:
-            if lumiCache[r][3] < 3.6: #0T cosmics (CRUZET)  
+            #Magnet commissioning runs excluded: 0.1-3.6 T
+            #CRUZET: < 0.1 T
+            #CRAFT: > 3.6 T
+            if lumiCache[r][3] < 0.1: #0T cosmics (CRUZET)
                 if lumiCache[r][1] > 0:
                     allLumi_currentCRUZET=allLumi_currentCRUZET+abs(lumiCache[r][0])
                     allTime_currentCRUZET=allTime_currentCRUZET+abs(lumiCache[r][2])
